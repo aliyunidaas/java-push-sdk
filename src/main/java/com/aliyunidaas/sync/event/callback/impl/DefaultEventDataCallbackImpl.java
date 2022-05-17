@@ -22,6 +22,7 @@ import java.util.Arrays;
  * @see OrganizationalUnitPushCallback
  */
 public class DefaultEventDataCallbackImpl implements EventDataCallback {
+    private TestCallback testCallback = null;
     private UserCallback userCallback = null;
     private UserPushCallback userPushCallback = null;
     private OrganizationalUnitCallback organizationalUnitCallback = null;
@@ -45,7 +46,11 @@ public class DefaultEventDataCallbackImpl implements EventDataCallback {
         final String eventType = eventData.getEventType();
         assertNotNull(eventType, "Event type is null");
 
-        if (eventType.startsWith(SyncEventConstants.USER_EVENT_PREFIX)) {
+        if (SyncEventConstants.COMMON_TEST.equals(eventType)) {
+            if (this.testCallback != null) {
+                return this.testCallback.onTest(eventContext);
+            }
+        } else if (eventType.startsWith(SyncEventConstants.USER_EVENT_PREFIX)) {
             final UserInfo userInfo = JsonUtil.fromJson(eventData.getBizData(), UserInfo.class);
             eventContext.getLogger().debug("Processing event data: " +
                     Arrays.asList(eventData.getEventId(), userInfo.getUserId()));
@@ -106,6 +111,15 @@ public class DefaultEventDataCallbackImpl implements EventDataCallback {
         }
         // event data not handled, just skip
         return EventDataResponse.newSkippedEventDataResponse("auto_skipped", "auto skipped by no implementation");
+    }
+
+    public void registerDefaultTestCallback() {
+        registerTestCallback(new TestCallback() {});
+    }
+
+    public void registerTestCallback(TestCallback testCallback) {
+        assertNull(this.testCallback, "Test callback already registered");
+        this.testCallback = testCallback;
     }
 
     public void registerUserCallback(UserCallback userCallback) {

@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.aliyunidaas</groupId>
   <artifactId>idaas-sync</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <name>Alibaba Cloud IDaaS Sync SDK</name>
   <description>Alibaba Cloud IDaaS User/Directory Sync SDK</description>
   <url>https://github.com/aliyunidaas/java-sync-sdk</url>

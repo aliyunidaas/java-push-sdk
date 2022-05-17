@@ -4,6 +4,8 @@ import com.aliyunidaas.sync.event.objects.EventData;
 import com.aliyunidaas.sync.event.objects.SyncEvent;
 import com.aliyunidaas.sync.log.SimpleLogger;
 
+import java.util.Optional;
+
 /**
  * 事件处理上下文
  *
@@ -32,6 +34,10 @@ public class EventContext {
 
     public SimpleLogger getLogger() {
         return logger;
+    }
+
+    public Optional<SimpleLogger> getLoggerOptional() {
+        return Optional.ofNullable(logger);
     }
 
     public void setLogger(SimpleLogger logger) {

@@ -1,5 +1,7 @@
 package com.aliyunidaas.sync.event.bizdata;
 
+import com.aliyunidaas.sync.internal.util.StringUtil;
+
 /**
  * 用户组织机构对象
  *
@@ -12,8 +14,14 @@ public class UserInfoOrganizationalUnit {
     private String organizationalUnitId;
     /**
      * 所属组织机构名称
+     *
+     * @deprecated 使用organizationalUnitName替代
      */
     private String name;
+    /**
+     * 所属组织机构名称，用于替代 name
+     */
+    private String organizationalUnitName;
     /**
      * 所属主组织机构。true-所属主组织机构，false-非主组织机构
      */
@@ -28,11 +36,19 @@ public class UserInfoOrganizationalUnit {
     }
 
     public String getName() {
-        return name;
+        return StringUtil.isNotEmpty(name) ? name : organizationalUnitName;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOrganizationalUnitName() {
+        return organizationalUnitName;
+    }
+
+    public void setOrganizationalUnitName(String organizationalUnitName) {
+        this.organizationalUnitName = organizationalUnitName;
     }
 
     public Boolean getPrimary() {
@@ -48,6 +64,7 @@ public class UserInfoOrganizationalUnit {
         return "UserInfoOrganizationalUnit{" +
                 "organizationalUnitId='" + organizationalUnitId + '\'' +
                 ", name='" + name + '\'' +
+                ", organizationalUnitName='" + organizationalUnitName + '\'' +
                 ", primary=" + primary +
                 '}';
     }

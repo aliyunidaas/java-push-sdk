@@ -18,6 +18,13 @@ public interface SyncEventConstants {
     // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
+     * 测试连接
+     */
+    String COMMON_TEST = "urn:alibaba:idaas:app:event:common:test";
+
+    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    /**
      * 账户创建
      */
     String USER_CREATE = "urn:alibaba:idaas:app:event:ud:user:create";

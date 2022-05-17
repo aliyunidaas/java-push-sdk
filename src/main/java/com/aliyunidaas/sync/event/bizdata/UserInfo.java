@@ -1,5 +1,7 @@
 package com.aliyunidaas.sync.event.bizdata;
 
+import com.aliyunidaas.sync.internal.util.StringUtil;
+
 import java.util.List;
 
 /**
@@ -10,12 +12,24 @@ import java.util.List;
 public class UserInfo {
     /**
      * 来源类型，取值 build_in 表示UD内建用户
+     *
+     * @deprecated 使用userSourceType替代
      */
     private String sourceType;
     /**
+     * 来源类型，取值 build_in 表示UD内建用户，用于替代 sourceType
+     */
+    private String userSourceType;
+    /**
      * 来源类型ID
+     *
+     * @deprecated 使用userSourceId替代
      */
     private String sourceId;
+    /**
+     * 来源类型ID，用于替代 sourceId
+     */
+    private String userSourceId;
 
     /**
      * 用户唯一ID，是以 user_ 开始的，对于同一个用户，用户唯一ID是不会变化的，示例：user_ezb3oauipzax3gbxhg4c5blc64
@@ -25,6 +39,10 @@ public class UserInfo {
      * 用户名
      */
     private String username;
+    /**
+     * 外部id。若是自建账户则和useId一致；若是外部同步的账户，则为来源的用户id。如来源是钉钉，则为钉钉的userId。 同externalId。
+     */
+    private String userExternalId;
     /**
      * 显示名称，一般为用户姓名
      */
@@ -83,31 +101,57 @@ public class UserInfo {
     private Long createTime;
     /**
      * 最后修改时间
+     *
+     * @deprecated 使用updateTime替代
      */
     private Long lastUpdatedTime;
+    /**
+     * 最后修改时间，用于替代 lastUpdatedTime
+     */
+    private Long updateTime;
     /**
      * 描述
      */
     private String description;
+    /**
+     * 所属主组织机构
+     */
+    private String primaryOrganizationalUnitId;
     /**
      * 所属组织机构列表
      */
     private List<UserInfoOrganizationalUnit> userOrganizationalUnits;
 
     public String getSourceType() {
-        return sourceType;
+        return StringUtil.isNotEmpty(sourceType) ? sourceType : userSourceType;
     }
 
     public void setSourceType(String sourceType) {
         this.sourceType = sourceType;
     }
 
+    public String getUserSourceType() {
+        return userSourceType;
+    }
+
+    public void setUserSourceType(String userSourceType) {
+        this.userSourceType = userSourceType;
+    }
+
     public String getSourceId() {
-        return sourceId;
+        return StringUtil.isNotEmpty(sourceId) ? sourceId : userSourceId;
     }
 
     public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public String getUserSourceId() {
+        return userSourceId;
+    }
+
+    public void setUserSourceId(String userSourceId) {
+        this.userSourceId = userSourceId;
     }
 
     public String getUserId() {
@@ -124,6 +168,14 @@ public class UserInfo {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUserExternalId() {
+        return userExternalId;
+    }
+
+    public void setUserExternalId(String userExternalId) {
+        this.userExternalId = userExternalId;
     }
 
     public String getDisplayName() {
@@ -231,11 +283,20 @@ public class UserInfo {
     }
 
     public Long getLastUpdatedTime() {
-        return lastUpdatedTime;
+        // 用于兼容将来废弃lastUpdatedTime字段
+        return (lastUpdatedTime != null) ? lastUpdatedTime : updateTime;
     }
 
     public void setLastUpdatedTime(Long lastUpdatedTime) {
         this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getDescription() {
@@ -244,6 +305,14 @@ public class UserInfo {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPrimaryOrganizationalUnitId() {
+        return primaryOrganizationalUnitId;
+    }
+
+    public void setPrimaryOrganizationalUnitId(String primaryOrganizationalUnitId) {
+        this.primaryOrganizationalUnitId = primaryOrganizationalUnitId;
     }
 
     public List<UserInfoOrganizationalUnit> getUserOrganizationalUnits() {
@@ -258,9 +327,12 @@ public class UserInfo {
     public String toString() {
         return "UserInfo{" +
                 "sourceType='" + sourceType + '\'' +
+                ", userSourceType='" + userSourceType + '\'' +
                 ", sourceId='" + sourceId + '\'' +
+                ", userSourceId='" + userSourceId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", username='" + username + '\'' +
+                ", userExternalId='" + userExternalId + '\'' +
                 ", displayName='" + displayName + '\'' +
                 ", password='******'" +
                 ", passwordSet=" + passwordSet +
@@ -275,7 +347,9 @@ public class UserInfo {
                 ", lockExpireTime=" + lockExpireTime +
                 ", createTime=" + createTime +
                 ", lastUpdatedTime=" + lastUpdatedTime +
+                ", updateTime=" + updateTime +
                 ", description='" + description + '\'' +
+                ", primaryOrganizationalUnitId='" + primaryOrganizationalUnitId + '\'' +
                 ", userOrganizationalUnits=" + userOrganizationalUnits +
                 '}';
     }
